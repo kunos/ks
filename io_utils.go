@@ -2,9 +2,11 @@ package ks
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 func ReadBytesFromFile(filename string) ([]byte, error) {
@@ -33,4 +35,29 @@ func ReadLines(r io.Reader) []string {
 
 	}
 
+}
+
+func ListFiles(folder string) []string {
+
+	var res []string
+
+	filepath.Walk(fmt.Sprintf(folder),
+		func(path string, info os.FileInfo, err error) error {
+
+			if info != nil && !info.IsDir() {
+				res = append(res, info.Name())
+			}
+
+			return nil
+		})
+	return res
+}
+
+func FileExists(filename string) bool {
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+
+		return false
+	}
+
+	return true
 }

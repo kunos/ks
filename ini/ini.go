@@ -82,6 +82,10 @@ func (ini *INIReader) GetString(section string, key string) string {
 	return ""
 }
 
+func (ini *INIReader) GetBool(section, key string) bool {
+	return ini.GetInt(section, key) != 0
+}
+
 func (ini *INIReader) GetInt(section string, key string) int {
 	ss := strings.TrimSpace(ini.GetString(section, key))
 
